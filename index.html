@@ -10,7 +10,6 @@
 <body>
 
 <div class="lang-bar">
-  <button class="lang-btn" onclick="openAdminLogin()" style="margin-right:auto;background:var(--green);color:#fff;border-color:var(--green);font-size:11px;">⚙ Admin</button>
   <button class="lang-btn on" id="btn-en" onclick="setLang('en')">EN</button>
   <button class="lang-btn" id="btn-ar" onclick="setLang('ar')">عربي</button>
 </div>
@@ -690,50 +689,6 @@
   <button class="success-close" onclick="closeSuccess()" id="sClose">Done ✓</button>
 </div>
 
-<!-- ADMIN MODE BAR -->
-<div class="admin-mode-bar" id="adminModeBar">
-  ⚙️ Admin Mode Active
-  <button class="ambar-btn" onclick="openAdminPanel()">Open Panel</button>
-  <button class="ambar-btn" onclick="apExitAdmin()">Exit Admin</button>
-</div>
-
-<!-- ADMIN LOGIN MODAL -->
-<div class="admin-login-bg" id="adminLoginBg" onclick="if(event.target===this)closeAdminLogin()">
-  <div class="admin-login-box">
-    <div class="alb-icon">🔐</div>
-    <div class="alb-title">Admin Access</div>
-    <div class="alb-sub">Enter your admin password</div>
-    <input class="alb-input" id="adminPwInput" type="password" maxlength="20" placeholder="••••••" onkeydown="if(event.key==='Enter')checkAdminPw()">
-    <div class="alb-error" id="adminPwError"></div>
-    <button class="alb-submit" onclick="checkAdminPw()">Enter</button><br>
-    <button class="alb-cancel" onclick="closeAdminLogin()">Cancel</button>
-  </div>
-</div>
-
-<!-- ADMIN PANEL -->
-<div class="ap" id="adminPanel">
-  <div class="ap-head">
-    <div class="ap-head-title">⚙️ Admin Panel</div>
-    <button class="ap-head-close" onclick="closeAdminPanel()">✕</button>
-  </div>
-  <div class="ap-tabs">
-    <button class="ap-tab on" data-tab="items" onclick="apSwitchTab('items')">📦 Items</button>
-    <button class="ap-tab" data-tab="categories" onclick="apSwitchTab('categories')">📂 Categories</button>
-    <button class="ap-tab" data-tab="contact" onclick="apSwitchTab('contact')">📱 Contact</button>
-    <button class="ap-tab" data-tab="branding" onclick="apSwitchTab('branding')">🎨 Branding</button>
-    <button class="ap-tab" data-tab="text" onclick="apSwitchTab('text')">✏️ Text</button>
-  </div>
-  <div class="ap-body">
-    <div class="ap-sec on" id="ap-items"></div>
-    <div class="ap-sec" id="ap-categories"></div>
-    <div class="ap-sec" id="ap-contact"></div>
-    <div class="ap-sec" id="ap-branding"></div>
-    <div class="ap-sec" id="ap-text"></div>
-  </div>
-</div>
-
-<!-- ADMIN EDIT / ADD ITEM MODAL -->
-<div class="ap-modal" id="apEditModal" onclick="if(event.target===this)closeApModal()"></div>
 
 <script src="js/script.js"></script>
 </body>
