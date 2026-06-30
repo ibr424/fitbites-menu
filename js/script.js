@@ -82,15 +82,19 @@ function updateTypeUI() {
   var lbl = document.getElementById('typeLabel');
   var inp = document.getElementById('typeInput');
   if (!lbl || !inp) return;
-  if (orderType === 'dine') {
-    lbl.textContent = ar ? 'رقم الطاولة' : 'Table Number';
-    inp.placeholder = ar ? 'مثال: طاولة 5' : 'e.g. Table 5';
-  } else if (orderType === 'pickup') {
-    lbl.textContent = ar ? 'اسمك للاستلام' : 'Your Name for Pickup';
-    inp.placeholder = ar ? 'اكتب اسمك' : 'Enter your name';
+  if (orderType === 'pickup') {
+    lbl.style.display = 'none';
+    inp.style.display = 'none';
   } else {
-    lbl.textContent = ar ? 'عنوان التوصيل' : 'Delivery Address';
-    inp.placeholder = ar ? 'اكتب عنوانك كاملاً' : 'Enter your full address';
+    lbl.style.display = '';
+    inp.style.display = '';
+    if (orderType === 'dine') {
+      lbl.textContent = ar ? 'رقم الطاولة' : 'Table Number';
+      inp.placeholder = ar ? 'مثال: طاولة 5' : 'e.g. Table 5';
+    } else {
+      lbl.textContent = ar ? 'عنوان التوصيل' : 'Delivery Address';
+      inp.placeholder = ar ? 'اكتب عنوانك كاملاً' : 'Enter your full address';
+    }
   }
 }
 
@@ -221,6 +225,21 @@ function sendOrder() {
   var keys = Object.keys(cart);
   if (!keys.length) return;
   var ar = document.body.classList.contains('ar');
+
+  var nameInp = document.getElementById('clientName');
+  var clientName = nameInp.value.trim();
+  var nameErr = document.getElementById('nameError');
+  if (!clientName) {
+    nameInp.classList.add('error-state','shake');
+    nameErr.classList.add('show');
+    nameErr.textContent = ar ? 'يرجى إدخال اسمك للمتابعة' : 'Please enter your name to continue';
+    nameInp.focus();
+    setTimeout(function(){ nameInp.classList.remove('shake'); }, 400);
+    return;
+  }
+  nameInp.classList.remove('error-state');
+  nameErr.classList.remove('show');
+
   var num = nextNum();
   var typeVal = document.getElementById('typeInput').value.trim();
   var notes = document.getElementById('cartNotes').value.trim();
@@ -229,8 +248,8 @@ function sendOrder() {
   var inputLabels = {dine: ar?'الطاولة':'Table', pickup: ar?'الاسم':'Name', delivery: ar?'العنوان':'Address'};
 
   var msg = ar
-    ? '*طلب جديد — FitBites*\n*رقم الطلب: #' + num + '*\n' + typeLabels[orderType]
-    : '*New Order — FitBites*\n*Order #' + num + '*\n' + typeLabels[orderType];
+    ? '*طلب جديد — FitBites*\n*رقم الطلب: #' + num + '*\n' + (ar?'الاسم: ':'Name: ') + clientName + '\n' + typeLabels[orderType]
+    : '*New Order — FitBites*\n*Order #' + num + '*\nName: ' + clientName + '\n' + typeLabels[orderType];
 
   if (typeVal) msg += '\n' + inputLabels[orderType] + ': ' + typeVal;
   msg += '\n\n';
@@ -254,6 +273,7 @@ function sendOrder() {
   cart = {};
   document.getElementById('cartNotes').value = '';
   document.getElementById('typeInput').value = '';
+  document.getElementById('clientName').value = '';
   updateFab();
 }
 
